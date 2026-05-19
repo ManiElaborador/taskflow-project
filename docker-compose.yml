@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  mysql:
+
+    image: mysql:8
+
+    container_name: mysql-container
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: taskflow_db
+
+    ports:
+      - "3307:3306"
+
+  backend:
+
+    build: ./taskflow-project
+
+    container_name: backend-container
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - mysql
+
+  frontend:
+
+    build: ./frontend
+
+    container_name: frontend-container
+
+    ports:
+      - "5173:5173"
+
+    depends_on:
+      - backend
